@@ -1,4 +1,4 @@
-// src/engine/render.rs
+
 use web_sys::CanvasRenderingContext2d;
 
 pub struct Renderer {
