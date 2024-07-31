@@ -1,5 +1,3 @@
-
-
 use crate::engine::input::InputHandler;
 use crate::engine::render::Renderer;
 use crate::engine::physics::PhysicsEngine;

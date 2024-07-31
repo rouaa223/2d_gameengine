@@ -1,36 +1,46 @@
-use wasm_bindgen::prelude::*;
+use wasm_bindgen::closure::Closure;
 use wasm_bindgen::JsCast;
+use web_sys::Window;
+use std::rc::Rc;
+use std::cell::RefCell;
+use crate::engine::game::Game;
+
 pub struct GameLoop {
-    callback: Option<Closure<dyn FnMut()>>,
+    game: Rc<RefCell<dyn Game>>,
+    window: Window,
 }
 
 impl GameLoop {
-    pub fn new(mut callback: F) -> Self
-    where 
-    F: FnMut() + 'static,
-    {
-        let closure = Closure::wrap(Box::new(callback) as Box<dyn FnMut()>);
-        Self { callback: Some(closure)}
-    }
-    pub fn start (&mut self) {
-        let window =  web_sys::window().expect("window in this arean");
-        if let Some(callback) = self.callback.take() {
-            let cb = callback.clone();
-            let g = Rc::new(RefCell::new(None));
-            let r = g.clone();
-
-            *r.borrow_mut() = Some(Closure::wrap(Box::new(move|| {
-                cb();
-                if let Some(f) = g.borrow_mut().take() {
-                    window
-                    .request_animation_frame(f.as_ref().unchecked_ref())
-                    .expect("register'animationFrameRequest' OK");
-                *g.borrow_mut() = Some(f);
-                }
-            }) as Box<dyn FnMut()>));
-            window 
-            .request_animation_frame(r.borrow_mut().as_ref().unwrap().as_ref().unchecked_ref())
-            .expect("register 'requestanimationframe' OK");
+    pub fn new(game: Rc<RefCell<dyn Game>>) -> Self {
+        let window = web_sys::window().expect("there is no global window");
+        Self {
+            game,
+            window,
         }
+    }
+
+    pub fn start(&self) {
+        
+        let f: Rc<RefCell<Option<Closure<dyn FnMut()>>>> = Rc::new(RefCell::new(None));
+        let g = f.clone();
+        let game_clone = self.game.clone();
+        let window_clone = self.window.clone();
+
+        // Wrap the callback function
+        *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
+            let mut game = game_clone.borrow_mut();
+            game.update(0.016);
+            game.render();
+
+            // Request the next frame
+            window_clone
+                .request_animation_frame(f.borrow().as_ref().unwrap().as_ref().unchecked_ref())
+                .expect("request_animation_frame failed");
+        }) as Box<dyn FnMut()>));
+
+        // Request the first frame
+        self.window
+            .request_animation_frame(g.borrow().as_ref().unwrap().as_ref().unchecked_ref())
+            .expect("request_animation_frame failed");
     }
 }
