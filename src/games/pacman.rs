@@ -115,11 +115,11 @@ impl PacmanGame {
                 self.pacman.y = new_y;
 
                 if self.grid[new_y][new_x] == Cell::Dot {
-                    self.grid[new_y][new_x] = Cell::Empty; // Mark dot as eaten
+                    self.grid[new_y][new_x] = Cell::Empty; 
                 } else if self.grid[new_y][new_x] == Cell::PowerUp {
-                    // Implement Power-Up logic
+                    
                     self.grid[new_y][new_x] = Cell::Empty;
-                    // TODO: Implement power-up effects (e.g., making ghosts vulnerable)
+                    
                 }
             }
 
