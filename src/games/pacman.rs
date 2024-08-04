@@ -38,13 +38,21 @@ pub struct PacmanGame {
 impl PacmanGame {
     pub fn new(context: CanvasRenderingContext2d, _canvas: HtmlCanvasElement) -> Self {
         let grid = vec![
-            vec![Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall],
-            vec![Cell::Wall, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Wall],
-            vec![Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Dot, Cell::Wall],
-            vec![Cell::Wall, Cell::Dot, Cell::Dot, Cell::PowerUp, Cell::Dot, Cell::Dot, Cell::Wall],
-            vec![Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall],
-            vec![Cell::Wall, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Wall],
-            vec![Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall],
+            vec![Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall],
+            vec![Cell::Wall, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Wall, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Wall],
+            vec![Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall],
+            vec![Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall],
+            vec![Cell::Wall, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Wall],
+            vec![Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Dot, Cell::Wall],
+            vec![Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Dot, Cell::Wall],
+            vec![Cell::Wall, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Wall, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Wall],
+            vec![Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall],
+            vec![Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall],
+            vec![Cell::Wall, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Wall],
+            vec![Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall],
+            vec![Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Dot, Cell::Wall],
+            vec![Cell::Wall, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Wall, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Dot, Cell::Wall],
+            vec![Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall, Cell::Wall],
         ];
 
         let pacman = Character {
@@ -57,18 +65,18 @@ impl PacmanGame {
 
         let ghosts = vec![
             Character {
-                x: 5,
+                x: 9,
                 y: 1,
                 direction: Direction::Left,
-                speed: 0.5, // Ghost speed
-                move_timer: 0.3,
+                speed: 0.9, // Ghost speed
+                move_timer: 0.8,
             },
             Character {
-                x: 1,
-                y: 5,
+                x: 17,
+                y: 3,
                 direction: Direction::Up,
-                speed: 0.5, // Ghost speed
-                move_timer: 0.3,
+                speed: 0.9, // Ghost speed
+                move_timer: 0.8,
             },
         ];
 
