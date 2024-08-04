@@ -131,7 +131,7 @@ impl PacmanGame {
                 }
             }
 
-            // Reset move timer after moving
+            // Reset move timer 
             self.pacman.move_timer = 0.0;
         }
     }
@@ -166,7 +166,7 @@ impl PacmanGame {
                     }
                 }
 
-                // Update ghost position based on the best direction
+                // Update ghost pos
                 match best_direction {
                     Direction::Up => ghost.y = ghost.y.saturating_sub(1),
                     Direction::Down => ghost.y += 1,
@@ -176,7 +176,7 @@ impl PacmanGame {
 
                 ghost.direction = best_direction;
 
-                // Reset move timer after moving
+                // Reset move timer 
                 ghost.move_timer = 0.3;
             }
         }
