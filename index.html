@@ -1,17 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="utf-8">
-    <title>2d Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu 2D</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: #222;
+            font-family: Arial, sans-serif;
         }
         canvas {
             background-color: black;
@@ -24,13 +27,25 @@
             left: 50%;
             transform: translate(-50%, -50%);
             color: white;
-            font-family: Arial, sans-serif;
             font-size: 20px;
+        }
+        #score {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 24px;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid white;
         }
     </style>
 </head>
 <body>
+    <div id="score">Score: 0</div>
     <canvas id="game_canvas" width="800" height="600"></canvas>
+    <div id="loading">Loading...</div>
     <script type="module">
         import init, { start } from './pkg/game_engine.js';
 
@@ -40,6 +55,14 @@
         }
 
         run();
+
+        // Example code to update the score dynamically
+        function updateScore(score) {
+            document.getElementById('score').textContent = `Score: ${score}`;
+        }
+
+        // You would call updateScore(score) from your game logic
+        // Example: updateScore(10);
     </script>
 </body>
 </html>

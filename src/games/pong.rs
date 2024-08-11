@@ -1,6 +1,6 @@
 use crate::engine::input::InputHandler;
 use crate::engine::render::Renderer;
-use crate::engine::physics::PhysicsEngine;
+use crate::engine::physics::{PhysicsEngine, Vector2};
 use crate::engine::game::Game;
 use web_sys::{HtmlCanvasElement, CanvasRenderingContext2d};
 
@@ -34,6 +34,9 @@ impl Pong {
         let ball_dx = 4.0;
         let ball_dy = -4.0;
 
+        let gravity = Vector2::new(0.0, 0.0); // No gravity in Pong
+        let friction = 0.0; // Adjust friction as needed
+
         Self {
             left_paddle_y,
             right_paddle_y,
@@ -48,7 +51,7 @@ impl Pong {
             canvas_height: canvas.height() as f64,
             renderer: Renderer::new(context),
             input_handler: InputHandler::new(),
-            physics_engine: PhysicsEngine::new(),
+            physics_engine: PhysicsEngine::new(gravity, friction),
         }
     }
 }

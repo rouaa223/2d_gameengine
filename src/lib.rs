@@ -5,8 +5,7 @@ use web_sys::{window, HtmlCanvasElement, CanvasRenderingContext2d};
 use std::rc::Rc;
 use std::cell::RefCell;
 use crate::engine::game_loop::GameLoop;
-//use crate::games::pacman::PacmanGame;
-//use crate::games::pong::Pong;
+use crate::games::pong::Pong;
 
 mod engine;
 mod games;

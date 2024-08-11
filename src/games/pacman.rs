@@ -95,7 +95,7 @@ impl PacmanGame {
     }
 
     fn update_pacman(&mut self, delta_time: f64) {
-        // Update Pac-Man's move timer
+        
         self.pacman.move_timer += delta_time;
 
         // Move Pac-Man only if enough time has passed based on its speed
@@ -117,7 +117,7 @@ impl PacmanGame {
                 self.pacman.direction = Direction::Up;
             }
 
-            // Check if Pac-Man can move to the new position
+            //  Pac-Man move to the new position
             if self.grid[new_y][new_x] != Cell::Wall {
                 self.pacman.x = new_x;
                 self.pacman.y = new_y;
