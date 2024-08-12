@@ -34,8 +34,8 @@ impl Pong {
         let ball_dx = 4.0;
         let ball_dy = -4.0;
 
-        let gravity = Vector2::new(0.0, 0.0); // No gravity in Pong
-        let friction = 0.0; // Adjust friction as needed
+        let gravity = Vector2::new(0.0, 0.0); // No gravity in Pong and PacMan 
+        let friction = 0.1; // Adjust friction 
 
         Self {
             left_paddle_y,
