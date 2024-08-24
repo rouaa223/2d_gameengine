@@ -1,5 +1,3 @@
-// src/engine/render.rs
-
 use web_sys::CanvasRenderingContext2d;
 
 pub struct Renderer {
@@ -22,14 +20,15 @@ impl Renderer {
 
     pub fn draw_ball(&self, x: f64, y: f64, radius: f64, color: &str) {
         self.context.begin_path();
-        self.context
-            .arc(x, y, radius, 0.0, std::f64::consts::PI * 2.0)
-            .unwrap();
+        self.context.arc(x, y, radius, 0.0, 3.14159 * 2.0).unwrap();
         self.context.set_fill_style(&color.into());
         self.context.fill();
         self.context.close_path();
     }
-    pub fn drw_triang(&self, x:f64, color: &str){
-      
+
+    pub fn draw_text(&self, text: &str, x: f64, y: f64, color: &str, font: &str) {
+        self.context.set_font(font);
+        self.context.set_fill_style(&color.into());
+        self.context.fill_text(text, x, y).unwrap();
     }
 }

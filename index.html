@@ -21,25 +21,7 @@
             display: block;
             border: 2px solid white;
         }
-        #loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 20px;
-        }
-        #score {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: white;
-            font-size: 24px;
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid white;
-        }
+       
     </style>
 </head>
 <body>
@@ -56,13 +38,7 @@
 
         run();
 
-        // Example code to update the score dynamically
-        function updateScore(score) {
-            document.getElementById('score').textContent = `Score: ${score}`;
-        }
 
-        // You would call updateScore(score) from your game logic
-        // Example: updateScore(10);
     </script>
 </body>
 </html>

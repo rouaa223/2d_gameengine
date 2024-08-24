@@ -23,14 +23,15 @@ pub struct Character {
     pub x: usize,
     pub y: usize,
     pub direction: Direction,
-    pub speed: f64, // Movement speed control
-    pub move_timer: f64, // Timer to manage movement speed
+    pub speed: f64,
+    pub move_timer: f64,
 }
 
 pub struct PacmanGame {
     grid: Vec<Vec<Cell>>,
     pacman: Character,
     ghosts: Vec<Character>,
+    score: u32,
     renderer: Renderer,
     input_handler: InputHandler,
 }
@@ -59,46 +60,28 @@ impl PacmanGame {
             x: 1,
             y: 1,
             direction: Direction::Right,
-            speed: 0.1, // Pac-Man speed
+            speed: 0.1,
             move_timer: 0.0,
         };
 
         let ghosts = vec![
-            Character {
-                x: 9,
-                y: 1,
-                direction: Direction::Left,
-                speed: 0.9, // Ghost speed
-                move_timer: 0.8,
-            },
-            Character {
-                x: 17,
-                y: 3,
-                direction: Direction::Up,
-                speed: 0.9, // Ghost speed
-                move_timer: 0.8,
-            },
+            Character { x: 8, y: 1, direction: Direction::Left, speed: 0.8, move_timer: 0.0 },
+            Character { x: 17, y: 3, direction: Direction::Up, speed: 0.8, move_timer: 0.0 },
         ];
 
         Self {
             grid,
             pacman,
             ghosts,
+            score: 0,
             renderer: Renderer::new(context),
             input_handler: InputHandler::new(),
         }
     }
 
-    fn update(&mut self, delta_time: f64) {
-        self.update_pacman(delta_time);
-        self.update_ghosts(delta_time);
-    }
-
     fn update_pacman(&mut self, delta_time: f64) {
-        
         self.pacman.move_timer += delta_time;
 
-        // Move Pac-Man only if enough time has passed based on its speed
         if self.pacman.move_timer >= self.pacman.speed {
             let mut new_x = self.pacman.x;
             let mut new_y = self.pacman.y;
@@ -117,21 +100,19 @@ impl PacmanGame {
                 self.pacman.direction = Direction::Up;
             }
 
-            //  Pac-Man move to the new position
             if self.grid[new_y][new_x] != Cell::Wall {
                 self.pacman.x = new_x;
                 self.pacman.y = new_y;
 
                 if self.grid[new_y][new_x] == Cell::Dot {
-                    self.grid[new_y][new_x] = Cell::Empty; 
-                } else if self.grid[new_y][new_x] == Cell::PowerUp {
-                    
                     self.grid[new_y][new_x] = Cell::Empty;
-                    
+                    self.score += 10;
+                } else if self.grid[new_y][new_x] == Cell::PowerUp {
+                    self.grid[new_y][new_x] = Cell::Empty;
+                    self.score += 50;
                 }
             }
 
-            // Reset move timer 
             self.pacman.move_timer = 0.0;
         }
     }
@@ -180,39 +161,62 @@ impl PacmanGame {
                 ghost.move_timer = 0.3;
             }
         }
+        fn distance_to_pacman(x: usize, y: usize, pacman_position: (usize, usize)) -> f64 {
+            let dx = pacman_position.0 as isize - x as isize;
+            let dy = pacman_position.1 as isize - y as isize;
+            ((dx * dx + dy * dy) as f64).sqrt()
+        }
     }
+
 }
 
-fn distance_to_pacman(x: usize, y: usize, pacman_position: (usize, usize)) -> f64 {
-    let dx = pacman_position.0 as isize - x as isize;
-    let dy = pacman_position.1 as isize - y as isize;
-    ((dx * dx + dy * dy) as f64).sqrt()
-}
+impl Game for PacmanGame {
+    fn update(&mut self, delta_time: f64) {
+        self.update_pacman(delta_time);
+        self.update_ghosts(delta_time);
+    }
 
-impl PacmanGame {
     fn render(&self) {
-        self.renderer
-            .clear((self.grid[0].len() * 20) as f64, (self.grid.len() * 20) as f64);
+        self.renderer.clear(
+            (self.grid[0].len() * 20) as f64,
+            (self.grid.len() * 20) as f64,
+        );
 
+        // Render grid
         for (y, row) in self.grid.iter().enumerate() {
             for (x, cell) in row.iter().enumerate() {
                 match cell {
                     Cell::Wall => {
-                        self.renderer.draw_rect((x * 20) as f64, (y * 20) as f64, 20.0, 20.0, "blue");
+                        self.renderer.draw_rect(
+                            (x * 20) as f64,
+                            (y * 20) as f64,
+                            20.0,
+                            20.0,
+                            "blue",
+                        );
                     }
                     Cell::Dot => {
-                        self.renderer
-                            .draw_ball((x * 20 + 10) as f64, (y * 20 + 10) as f64, 3.0, "white");
+                        self.renderer.draw_ball(
+                            (x * 20 + 10) as f64,
+                            (y * 20 + 10) as f64,
+                            3.0,
+                            "white",
+                        );
                     }
                     Cell::PowerUp => {
-                        self.renderer
-                            .draw_ball((x * 20 + 10) as f64, (y * 20 + 10) as f64, 5.0, "green");
+                        self.renderer.draw_ball(
+                            (x * 20 + 10) as f64,
+                            (y * 20 + 10) as f64,
+                            5.0,
+                            "green",
+                        );
                     }
                     Cell::Empty => {}
                 }
             }
         }
 
+        // Render Pac-Man
         self.renderer.draw_ball(
             (self.pacman.x * 20 + 10) as f64,
             (self.pacman.y * 20 + 10) as f64,
@@ -220,6 +224,7 @@ impl PacmanGame {
             "yellow",
         );
 
+        // Render ghosts
         for ghost in &self.ghosts {
             self.renderer.draw_ball(
                 (ghost.x * 20 + 10) as f64,
@@ -228,15 +233,14 @@ impl PacmanGame {
                 "red",
             );
         }
-    }
-}
 
-impl Game for PacmanGame {
-    fn update(&mut self, delta_time: f64) {
-        self.update(delta_time);
-    }
-
-    fn render(&self) {
-        self.render();
+        // Render score
+        self.renderer.draw_text(
+            &format!("Score: {}", self.score),
+            10.0,  
+            20.0,  
+            "white",  
+            "24px Arial",  
+        );
     }
 }
